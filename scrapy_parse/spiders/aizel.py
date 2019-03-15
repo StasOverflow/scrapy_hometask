@@ -12,8 +12,11 @@ class AizelClothSpider(scrapy.Spider):
         url_list = [
             response.urljoin(link[:-2] + str(x+1)) for x in range(int(last_page))
         ]
-        for link in url_list:
-            yield scrapy.Request(link, self.parse_cloth_list)
+        # for link in url_list:
+        #     yield scrapy.Request(link, self.parse_cloth_list)
+        print(url_list[2:6])
+        for index, link in enumerate(url_list[2:6]):
+            yield scrapy.Request(url_list[index], self.parse_cloth_list)
 
     def parse_cloth_list(self, response):
         cloth_link_list = response.xpath('//ul[contains(@class, "product__list")]/'
@@ -37,7 +40,7 @@ class AizelClothSpider(scrapy.Spider):
         size = response.xpath('//div[@class="details__row"]/text()')[2].get().strip().split(' ')[-1:]
 
         descr = response.xpath('//p[contains(@itemprop, "description")]/text()').get()
-        color = response.xpath('//div[@class="details__row"]/text()')[3].get()
+        color = response.xpath('//div[@class="details__row"]/span[contains(text(), "Цвет")]/../text()').get()
 
         fields_item = AizelClothItem()
         fields_item['brand'] = brand
