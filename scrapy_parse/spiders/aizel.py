@@ -14,8 +14,17 @@ class AizelClothSpider(scrapy.Spider):
         brand = response.xpath('//h1[@itemprop="name"]/a/text()').get()
         title = response.xpath('//h1[@itemprop="name"]/span/text()').get()
         image = response.xpath('//img[@itemprop="image"]/@src').get()
-        price = response.xpath('//span[contains(@class, "price")]/text()').get()
-        sizes = response.xpath('//li[contains(@class, "size")]/span[@class="product-size-title"]/text()').get()
+        price = response.xpath('//span[contains(@itemprop, "price")]/text()').get()
+
+        '''
+            The following code snippet returns nothing, because its content is added to page via js
+            
+            sizes = response.xpath('//li[contains(@class, "size")]/span[@class="product-size-title"]/text()').get()
+        '''
+
+        sizes = response.xpath('//a[@data-ga-action="about_store"]/../div/strong/text()').get()
+        # to turn into array: sizes.split(' ')[1:]
+
         descr = response.xpath('//p[contains(@itemprop, "description")]/text()').get()
         color = response.xpath('//div[@class="details__row"]/text()')[-1].extract()
 
