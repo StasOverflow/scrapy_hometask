@@ -8,7 +8,10 @@
 import scrapy
 
 
-class ScrapyParseItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class AizelClothItem(scrapy.Item):
+    title = scrapy.Field()
+    image = scrapy.Field()
+    price = scrapy.Field()
+    size = scrapy.Field()
+    descr = scrapy.Field()
+    color = scrapy.Field()
