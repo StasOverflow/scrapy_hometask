@@ -13,14 +13,6 @@ class AizelClothSpider(RedisSpider):
     def field_format(self):
         pass
 
-    def get_color(self, response):
-        """
-        Checks if a field parsed successfully
-        :return: Field value, if parsed, Nothing if parsing failed
-        """
-        return response.xpath('//div[@class="details__row"]/'
-                              'span[contains(text(), "Цвеgт")]/../text()').get()
-
     def parse(self, response):
         link = response.xpath('//ul[@class="pagination"]/li[last()]/a/@href').get()
         last_page = response.xpath('//ul[@class="pagination"]/li[last()]/a/text()').get()
@@ -51,8 +43,6 @@ class AizelClothSpider(RedisSpider):
         meta_dict['image'] = response.xpath('//img[@itemprop="image"]/@src').get()
         meta_dict['price'] = response.xpath('//span[contains(@itemprop, "price")]/text()').get()
         meta_dict['descr'] = response.xpath('//p[contains(@itemprop, "description")]/text()').get()
-        # meta_dict['color'] = self.get_color(response)
-
         meta_dict['color'] = response.xpath('//div[@class="deta2ils__row"]/'
                                             'span[contains(text(), "Цвеgт")]/../text()').get()
 
