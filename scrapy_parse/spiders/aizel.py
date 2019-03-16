@@ -21,8 +21,8 @@ class AizelClothSpider(RedisSpider):
         ]
         # for link in url_list:
         #     yield scrapy.Request(link, self.parse_cloth_list)
-        print(url_list[5:6])
-        for index, link in enumerate(url_list[5:6]):
+        print(url_list[5:7])
+        for index, link in enumerate(url_list[5:7]):
             yield scrapy.Request(url_list[index], self.parse_cloth_list)
 
     def parse_cloth_list(self, response):
@@ -30,10 +30,14 @@ class AizelClothSpider(RedisSpider):
                                          'li[contains(@class, "product__item")]//'
                                          'a[contains(@class, "product__desc__name")]/'
                                          '@href').getall()
-        for link in cloth_link_list:
-            yield scrapy.Request(response.urljoin(link), self.parse_cloth_item)
+        # for link in cloth_link_list:
+        #     yield scrapy.Request(response.urljoin(link), self.parse_cloth_item)
+        for index, link in enumerate(cloth_link_list[1:3]):
+            item_id = link.split('-')[-1].strip('/')
+            yield scrapy.Request(response.urljoin(link), self.parse_cloth_item, meta={'item_id': item_id})
 
     def parse_cloth_item(self, response):
+        print('AYDI IS ', response.meta['item_id'])
         brand = response.xpath('//h1[@itemprop="name"]/a/text()').get()
         title = response.xpath('//h1[@itemprop="name"]/span/text()').get()
         image = response.xpath('//img[@itemprop="image"]/@src').get()
@@ -52,7 +56,7 @@ class AizelClothSpider(RedisSpider):
         fields_item = AizelClothItem()
         fields_item['brand'] = brand
         fields_item['title'] = title
-        fields_item['image'] = image
+        fields_item['image'] = response.urljoin(image)
         fields_item['price'] = price
         # fields_item['size'] = size
         fields_item['descr'] = descr

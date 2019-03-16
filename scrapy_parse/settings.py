@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'scrapy_parse.spiders'
 # USER_AGENT = 'scrapy_parse (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -27,7 +27,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 0.25
 
 # scrapy redis cfg
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
