@@ -9,6 +9,10 @@ class AizelClothSpider(RedisSpider):
 
     # def make_request_from_data(self, data):
 
+    def get_sizes(self):
+        # https://aizel.ru/products/sizes/?id=
+        pass
+
     def parse(self, response):
         link = response.xpath('//ul[@class="pagination"]/li[last()]/a/@href').get()
         last_page = response.xpath('//ul[@class="pagination"]/li[last()]/a/text()').get()
@@ -18,7 +22,7 @@ class AizelClothSpider(RedisSpider):
         # for link in url_list:
         #     yield scrapy.Request(link, self.parse_cloth_list)
         print(url_list[5:6])
-        for index, link in enumerate(url_list[2:6]):
+        for index, link in enumerate(url_list[5:6]):
             yield scrapy.Request(url_list[index], self.parse_cloth_list)
 
     def parse_cloth_list(self, response):
